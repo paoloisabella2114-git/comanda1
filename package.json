@@ -1,0 +1,13 @@
+{
+  "name": "ordine-smart",
+  "version": "1.0.0",
+  "description": "Ordine Smart Sagra",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "*",
+    "dotenv": "*",
+    "ejs": "*",
+    "express": "*",
+    "pg": "*"
+  }
+}

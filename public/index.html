@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Benvenuti - Comanda Smart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="/js/jquery.min.js"></script>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #fffae6; 
+            margin: 0; padding: 0; 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh;
+            color: #333;
+        }
+        .welcome-container { 
+            text-align: center; background: white; 
+            padding: 25px; border-radius: 20px; 
+            border: 3px solid #f1c40f; box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            max-width: 420px; width: 90%;
+            display: flex; flex-direction: column;
+            gap: 15px; 
+        }
+        .logo-box img { max-height: 120px; width: auto; object-fit: contain; }
+        h1 { color: #e67e22; font-size: 28px; margin: 0; text-transform: uppercase; }
+        .intro-text { font-size: 17px; color: #7f8c8d; margin: 0; line-height: 1.4; }
+        .specials { background: #fff9c4; border: 2px solid #f1c40f; border-radius: 15px; padding: 15px; }
+        .specials h3 { margin: 0 0 10px 0; color: #d35400; font-size: 16px; letter-spacing: 1px; }
+        .piatto-giorno { font-weight: bold; color: #2c3e50; font-size: 18px; display: block; margin: 5px 0; }
+        .btn-start { 
+            display: block; width: 100%; padding: 22px 10px; 
+            background-color: #e74c3c; color: white; 
+            text-decoration: none; border-radius: 15px; 
+            font-size: 24px; font-weight: bold; 
+            box-shadow: 0 6px #c0392b; box-sizing: border-box;
+            border: none; cursor: pointer;
+            margin-bottom: 5px;
+        }
+        .btn-recupero { background-color: #27ae60 !important; box-shadow: 0 6px #1e8449 !important; }
+        .btn-start:active { transform: translateY(4px); box-shadow: none; }
+        .assistenza-row { margin-top: 10px; padding: 12px; background: #f0fff4; border-radius: 10px; border: 1px solid #c6f6d5; }
+        .wa-link { color: #27ae60; text-decoration: none; font-weight: bold; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .footer { font-size: 12px; color: #95a5a6; }
+    </style>
+</head>
+<body>
+
+<div class="welcome-container">
+    <div class="logo-box">
+        <img id="event-logo" src="/img/logo300.png" alt="Logo">
+    </div>
+
+    <h1 id="titolo-principale">Comanda Smart</h1>
+    
+    <div id="box-recupero" style="display:none; background: #e8f5e9; padding: 15px; border-radius: 15px; border: 2px solid #27ae60;">
+        <p style="margin:0 0 10px 0; font-weight:bold; color:#1b5e20;">✅ HAI UN ORDINE PRONTO</p>
+        <a href="/pagina4.html" class="btn-start btn-recupero">MOSTRA QR ➔</a>
+        <p style="font-size:12px; margin:10px 0 0 0;">Oppure procedi qui sotto per uno nuovo</p>
+    </div>
+
+    <p class="intro-text">Ordina i piatti e mostra il QR alla cassa per il pagamento</p>
+    
+    <div class="specials">
+        <h3 id="specialita-titolo">🌟 SPECIALITÀ DI OGGI</h3>
+        <div id="lista-piatti">
+            </div>
+    </div>
+    
+    <a href="/pagina2.html" class="btn-start" id="btn-inizia" onclick="avvia(this)">INIZIA COMANDA ➔</a>
+
+    <div class="assistenza-row">
+       <a href="#" class="wa-link" id="wa-link-href">
+        <span> Contatto <img src="/img/wapp.png"> o 📞 <span id="wa-numero">...</span></span>
+       </a>
+    </div>
+
+    <div class="footer">
+        Organizzato da: <b id="footer-org">...</b>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        
+        // --- 1. CARICAMENTO CONFIGURAZIONE ESTERNA ---
+        $.getJSON('/api/config', function(config) {
+            // Aggiorna Logo
+            if(config.logo_url) $('#event-logo').attr('src', config.logo_url);
+            
+            // Aggiorna Titolo Specialità
+            $('#specialita-titolo').text(config.titolo_sezione);
+            
+            // Aggiorna Lista Piatti
+            let piattiHtml = '';
+            if(config.specialita && config.specialita.length > 0) {
+                config.specialita.forEach(function(piatto) {
+                    piattiHtml += `<span class="piatto-giorno">${piatto}</span>`;
+                });
+                $('#lista-piatti').html(piattiHtml);
+            }
+
+            // Aggiorna Assistenza
+            $('#wa-numero').text(config.telefono_assistenza);
+            $('#wa-link-href').attr('href', 'tel:+39' + config.telefono_assistenza);
+
+            // Aggiorna Footer
+            $('#footer-org').text(config.footer_organizzazione);
+
+        }).fail(function() {
+            console.error("Config.json non trovato o errore API. Uso dati di default.");
+            // Default in caso di errore
+            $('#wa-numero').text("3276017150");
+            $('#footer-org').text("Gruppo Festeggiamenti Pare'");
+        });
+
+
+        // --- 2. CONTROLLO CAMBIO SERATA (Tua logica originale) ---
+        $.getJSON('/api/info-serata', function(data) {
+            const idAttuale = data.idSerata;
+            const idSalvato = localStorage.getItem('sagra_id_serata');
+
+            if (idSalvato !== idAttuale) {
+                localStorage.clear();
+                sessionStorage.clear();
+                localStorage.setItem('sagra_id_serata', idAttuale);
+                console.log("Nuova serata rilevata: Cache ripulita.");
+            }
+
+            // Mostra tasto recupero se c'è un ordine in corso
+            const salvato = localStorage.getItem('ordine_completo_string');
+            if(salvato) {
+                document.getElementById('box-recupero').style.display = 'block';
+            }
+        });
+
+        sessionStorage.clear();
+    });
+
+    function avvia(element) {
+        element.style.pointerEvents = 'none';
+        element.style.backgroundColor = '#bdc3c7';
+        element.style.boxShadow = 'none';
+        element.innerHTML = 'CARICAMENTO...';
+    }
+</script>
+
+</body>
+</html>
