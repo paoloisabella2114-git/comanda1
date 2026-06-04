@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informativa Allergeni - Sagra</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .container-allergeni {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+            font-family: sans-serif;
+        }
+        .tabella-allergeni {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .tabella-allergeni th, .tabella-allergeni td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .tabella-allergeni th {
+            background-color: #f4f4f4;
+        }
+        .nota-allergeni {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .btn-torna {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-allergeni">
+        <h1>Informativa sugli Allergeni</h1>
+        
+        <div class="nota-allergeni">
+            <strong>Attenzione:</strong> I nostri piatti sono preparati in un ambiente che gestisce diversi ingredienti. Se hai allergie gravi, ti preghiamo di farlo presente direttamente al personale della cassa prima di ordinare.
+        </div>
+
+        <table class="tabella-allergeni">
+            <thead>
+                <tr>
+                    <th>Piatto</th>
+                    <th>Allergeni Presenti</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Esempi da personalizzare in base al vostro menu -->
+                <tr>
+                    <td><strong>Gnocchi al Ragù</strong></td>
+                    <td>Glutine (grano), Sedano, Latte (se presente formaggio)</td>
+                </tr>
+                <tr>
+                    <td><strong>Panino con Salsiccia</strong></td>
+                    <td>Glutine (pane), Anidride solforosa (solfiti nella salsiccia)</td>
+                </tr>
+                <tr>
+                    <td><strong>Patatine Fritte</strong></td>
+                    <td>Tracce di glutine (per via della friggitrice condivisa)</td>
+                </tr>
+                <tr>
+                    <td><strong>Birra alla spina</strong></td>
+                    <td>Glutine (orzo)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="index.html" class="btn-torna">← Torna al Menu</a>
+    </div>
+
+</body>
+</html>
