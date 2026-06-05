@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
     const result = await db.query(`
       SELECT a.id, a.descrizione AS nome, a.prezzo,
              t.descrizione AS nome_tipologia,
-             COUNT(ai.id) AS num_ingredienti
+             COUNT(ai.id) FILTER (WHERE ai.obbligatorio IS NOT TRUE) AS num_ingredienti
       FROM articoli a
       JOIN tipologie t ON t.id = a.id_tipologia
       LEFT JOIN articoli_ingredienti ai ON ai.id_articolo = a.id AND ai.visibile IS NOT FALSE
