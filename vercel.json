@@ -14,6 +14,6 @@
     { "src": "/pagina3.html", "dest": "/public/pagina3.html" },
     { "src": "/pagina4.html", "dest": "/public/pagina4.html" },
     { "src": "/config.json", "dest": "/public/config.json" },
-    { "src": "/(.*)", "dest": "/public/index.html" }
+    { "src": "/", "dest": "/public/index.html" }
   ]
 }
