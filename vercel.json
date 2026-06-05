@@ -1,6 +1,19 @@
 {
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/public/$1" }
+  "version": 2,
+  "builds": [
+    { "src": "api/**/*.js", "use": "@vercel/node" },
+    { "src": "public/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/ingredienti/([^/]+)", "dest": "/api/ingredienti/[id].js?id=$1" },
+    { "src": "/api/([^/]+)", "dest": "/api/$1.js" },
+    { "src": "/img/(.*)", "dest": "/public/img/$1" },
+    { "src": "/css/(.*)", "dest": "/public/css/$1" },
+    { "src": "/js/(.*)", "dest": "/public/js/$1" },
+    { "src": "/pagina2.html", "dest": "/public/pagina2.html" },
+    { "src": "/pagina3.html", "dest": "/public/pagina3.html" },
+    { "src": "/pagina4.html", "dest": "/public/pagina4.html" },
+    { "src": "/config.json", "dest": "/public/config.json" },
+    { "src": "/(.*)", "dest": "/public/index.html" }
   ]
 }
