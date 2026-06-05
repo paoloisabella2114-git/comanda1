@@ -2,142 +2,169 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Benvenuti alla Sagra!</title>
-    <!-- Riutilizziamo i tuoi stili globali se necessario -->
-    <link rel="stylesheet" href="css/styles.css"> 
+    <title>Benvenuti - Comanda Smart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="/js/jquery.min.js"></script>
     <style>
-        :root {
-            --primary-color: #e63946; /* Rosso Sagra, personalizzalo se vuoi */
-            --text-color: #1d3557;
-            --bg-color: #f8f9fa;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #fffae6; 
+            margin: 0; padding: 0; 
+            display: flex; justify-content: center; align-items: center; 
             min-height: 100vh;
+            color: #333;
         }
-
-        .welcome-container {
-            text-align: center;
-            max-width: 450px;
-            width: 100%;
-            padding: 30px 20px;
+        .welcome-container { 
+            text-align: center; background: white; 
+            padding: 25px; border-radius: 20px; 
+            border: 3px solid #f1c40f; box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            max-width: 420px; width: 90%;
+            display: flex; flex-direction: column;
+            gap: 15px; 
+        }
+        .logo-box img { max-height: 120px; width: auto; object-fit: contain; }
+        h1 { color: #e67e22; font-size: 28px; margin: 0; text-transform: uppercase; }
+        .intro-text { font-size: 17px; color: #7f8c8d; margin: 0; line-height: 1.4; }
+        .specials { background: #fff9c4; border: 2px solid #f1c40f; border-radius: 15px; padding: 15px; }
+        .specials h3 { margin: 0 0 10px 0; color: #d35400; font-size: 16px; letter-spacing: 1px; }
+        .piatto-giorno { font-weight: bold; color: #2c3e50; font-size: 18px; display: block; margin: 5px 0; }
+        .btn-start { 
+            display: block; width: 100%; padding: 22px 10px; 
+            background-color: #e74c3c; color: white; 
+            text-decoration: none; border-radius: 15px; 
+            font-size: 24px; font-weight: bold; 
+            box-shadow: 0 6px #c0392b; box-sizing: border-box;
+            border: none; cursor: pointer;
+        }
+        .btn-recupero  { background-color: #27ae60 !important; box-shadow: 0 6px #1e8449 !important; }
+        .btn-allergeni { background-color: #f39c12 !important; box-shadow: 0 6px #d35400 !important; font-size: 20px !important; }
+        .btn-locandina { background-color: #3498db !important; box-shadow: 0 6px #2176ae !important; font-size: 20px !important; }
+        .btn-start:active { transform: translateY(4px); box-shadow: none !important; }
+        .assistenza-row { 
+            background: #f0fff4; border-radius: 12px; 
+            border: 1px solid #c6f6d5; padding: 12px 15px;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .wa-link { 
+            color: #27ae60; text-decoration: none; font-weight: bold; 
+            font-size: 18px; display: flex; align-items: center; 
+            justify-content: center; gap: 8px; 
+        }
+        .wa-link img { width: 24px; height: 24px; vertical-align: middle; }
+        .btn-salva {
+            display: block; width: 100%; padding: 14px;
+            background-color: #27ae60; color: white;
+            border: none; border-radius: 12px;
+            font-size: 16px; font-weight: bold;
+            cursor: pointer; box-shadow: 0 4px #1e8449;
             box-sizing: border-box;
         }
-
-        .logo-container img {
-            max-width: 180px;
-            height: auto;
-            margin-bottom: 15px;
-            border-radius: 50%;
-            /* Sfrutta il logo300.png presente nella tua cartella img */
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 5px;
-            color: #1d3557;
-            font-weight: 700;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: #6c757d;
-            margin-bottom: 35px;
-        }
-
-        .buttons-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .btn-welcome {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 18px 25px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-decoration: none;
-            color: white;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-        }
-
-        /* Colori e stili personalizzati per ogni pulsante */
-        .btn-menu {
-            background: linear-gradient(135deg, #e63946, #d90429);
-        }
-        
-        .btn-locandina {
-            background: linear-gradient(135deg, #fff308, #ded637);
-        }
-
-        .btn-allergeni {
-            background: linear-gradient(135deg, #f4a261, #e76f51);
-        }
-
-        /* Effetto al passaggio del mouse / tocco */
-        .btn-welcome:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-welcome:active {
-            transform: translateY(-1px);
-        }
-
-        .footer-text {
-            margin-top: 40px;
-            font-size: 0.85rem;
-            color: #adb5bd;
-        }
+        .btn-salva:active { transform: translateY(4px); box-shadow: none; }
+        .footer { font-size: 12px; color: #95a5a6; }
     </style>
 </head>
 <body>
 
-    <div class="welcome-container">
-        
-        <!-- Logo della sagra (puntiamo a logo300.png che hai nella cartella img) -->
-        <div class="logo-container">
-            <img src="img/logo300.png" alt="Logo Sagra">
-        </div>
-
-        <h1>Benvenuti alla Sagra!</h1>
-        <p class="subtitle">Scegli un'opzione per continuare</p>
-
-        <!-- Griglia dei 3 Pulsanti -->
-        <div class="buttons-grid">
-            
-            <a href="menu.html" class="btn-welcome btn-menu">
-                🍽️ Guarda il Menu & Ordina
-            </a>
-
-            <a href="locandina.html" class="btn-welcome btn-locandina">
-                📅 Locandina dell'Evento
-            </a>
-
-            <a href="allergeni.html" class="btn-welcome btn-allergeni">
-                ⚠️ Info & Allergeni
-            </a>
-            
-        </div>
-
-        <div class="footer-text">
-            © 2026 - Tutti i diritti riservati
-        </div>
+<div class="welcome-container">
+    <div class="logo-box">
+        <img id="event-logo" src="/img/logo300.png" alt="Logo" onerror="this.style.display='none'">
     </div>
+
+    <h1>Comanda Smart</h1>
+    
+    <div id="box-recupero" style="display:none; background:#e8f5e9; padding:15px; border-radius:15px; border:2px solid #27ae60;">
+        <p style="margin:0 0 10px 0; font-weight:bold; color:#1b5e20;">✅ HAI UN ORDINE PRONTO</p>
+        <a href="/pagina4.html" class="btn-start btn-recupero">MOSTRA QR ➔</a>
+        <p style="font-size:12px; margin:10px 0 0 0;">Oppure procedi qui sotto per uno nuovo</p>
+    </div>
+
+    <p class="intro-text">Compila e mostra il QR alla cassa per la conferma e il pagamento</p>
+    
+    <div class="specials">
+        <h3 id="specialita-titolo">🌟 SPECIALITÀ DI OGGI</h3>
+        <div id="lista-piatti"></div>
+    </div>
+    
+    <a href="/pagina2.html" class="btn-start" id="btn-inizia" onclick="avvia(this)">INIZIA COMANDA ➔</a>
+
+    <a href="/locandina.html" class="btn-start btn-locandina">📅 Locandina dell'Evento</a>
+
+    <a href="/allergeni.html" class="btn-start btn-allergeni">⚠️ Info &amp; Allergeni</a>
+
+    <div class="assistenza-row">
+        <a href="#" class="wa-link" id="wa-link-href">
+            <img src="/img/wapp.png" alt="WhatsApp"> 
+            o 📞 <span id="wa-numero">...</span>
+        </a>
+        <button class="btn-salva" onclick="salvaContatto()">💾 Salva il Numero in Rubrica</button>
+    </div>
+
+    <div class="footer">
+        Organizzato da: <b id="footer-org">...</b>
+    </div>
+</div>
+
+<script>
+let configData = {};
+
+$(document).ready(function() {
+
+    $.getJSON('/api/config', function(config) {
+        configData = config;
+        if(config.logo_url) $('#event-logo').attr('src', config.logo_url);
+        $('#specialita-titolo').text(config.titolo_sezione);
+        let piattiHtml = '';
+        if(config.specialita && config.specialita.length > 0) {
+            config.specialita.forEach(function(piatto) {
+                piattiHtml += `<span class="piatto-giorno">${piatto}</span>`;
+            });
+            $('#lista-piatti').html(piattiHtml);
+        }
+        const tel = config.telefono_assistenza || '';
+        $('#wa-numero').text(tel);
+        $('#wa-link-href').attr('href', 'tel:+39' + tel);
+        $('#footer-org').text(config.footer_organizzazione);
+    }).fail(function() {
+        $('#wa-numero').text('N/D');
+        $('#footer-org').text('Sagra');
+    });
+
+    $.getJSON('/api/info-serata', function(data) {
+        const idAttuale = data.idSerata;
+        const idSalvato = localStorage.getItem('sagra_id_serata');
+        if(idSalvato !== idAttuale) {
+            localStorage.clear();
+            sessionStorage.clear();
+            localStorage.setItem('sagra_id_serata', idAttuale);
+        }
+        if(localStorage.getItem('ordine_completo_string')) {
+            document.getElementById('box-recupero').style.display = 'block';
+        }
+    });
+
+    sessionStorage.clear();
+});
+
+function avvia(element) {
+    element.style.pointerEvents = 'none';
+    element.style.backgroundColor = '#bdc3c7';
+    element.style.boxShadow = 'none';
+    element.innerHTML = 'CARICAMENTO...';
+}
+
+function salvaContatto() {
+    const nome = configData.nome_contatto || configData.footer_organizzazione || 'Assistenza Sagra';
+    const tel = configData.telefono_assistenza || '';
+    const vcard = `BEGIN:VCARD\nVERSION:3.0\nFN:${nome}\nTEL;TYPE=CELL:+39${tel}\nEND:VCARD`;
+    const blob = new Blob([vcard], { type: 'text/vcard' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nome.replace(/\s+/g, '_') + '.vcf';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+</script>
 
 </body>
 </html>
